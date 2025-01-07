@@ -1,0 +1,29 @@
+create an app for monitoring a disease and to help prevent the spread, that has a home page with a number different pages.
+
+1) Data analysis page that provides information on the disease and live data on it.
+
+2) A news page that has pages for different news channels like BBC, FOX, etc... about news on the disease.
+
+3) Add a tracking page that provides a real time map of your current location. It shows you contaminated and potentially contaminated areas to be wary of and nearby health centers, pharmacies and hospitals.
+
+4) A helpline page that has contacts of nearby doctors and health professionals in your area.
+
+5) An info page that provides real time information on the disease
+
+6) A donations page to support the workers.
+
+There should be arrows that navigate through the page as well as a home button.
+There should be a sign up / Login option that keeps track of your account and your contacts.
+There should be an emergency call button so that if you are infected you can call an ambulance or a nearby health centers. The app keeps track of your contacts and location so it can inform people whom you have recently visited and people who have been in areas that you have frequently visited.
+
+the customization in settings allows people to change the frequency of alert notifications they receive and a language option.
+
+The name of the app is Defense Line (create a good logo)
+
+
+
+
+
+could you add a bit of information on each page and working buttons and a working login system that asks for a username and a password. Add images of maps on the track page. A few buttons that have the names of news services like FOX and BBC on the news page. When you press the emergency button it should show a big red button that you push, this will inform the health authorities. The settings tab should have a light mode-dark mode option, language option, location setting, and notification setting.
+
+
