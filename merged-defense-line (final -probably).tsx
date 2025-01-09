@@ -1,0 +1,387 @@
+import React, { useState } from 'react';
+import { 
+  Home,
+  Map,
+  Phone,
+  Settings,
+  Info,
+  Activity,
+  Bell,
+  Heart,
+  LogIn,
+  AlertCircle 
+} from 'lucide-react';
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer,
+  PieChart, Pie, Cell
+} from 'recharts';
+
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [theme, setTheme] = useState('light');
+  const [country, setCountry] = useState('');
+  const [language, setLanguage] = useState('en');
+  
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Spanish' },
+    { code: 'fr', name: 'French' },
+    { code: 'de', name: 'German' },
+    { code: 'zh', name: 'Chinese' },
+  ];
+  const [donationAmount, setDonationAmount] = useState('');
+
+  // Disease data for analysis
+  const ageData = [
+    { age: '0-20', cases: 45, risk: 'Low' },
+    { age: '21-40', cases: 78, risk: 'Medium' },
+    { age: '41-60', cases: 120, risk: 'High' },
+    { age: '60+', cases: 156, risk: 'Very High' }
+  ];
+
+  const symptomsData = [
+    { name: 'Fever', value: 35 },
+    { name: 'Cough', value: 25 },
+    { name: 'Fatigue', value: 20 },
+    { name: 'Body Aches', value: 15 },
+    { name: 'Other', value: 5 }
+  ];
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+
+  const NavigationBar = () => (
+    <nav className="fixed bottom-0 w-full bg-white border-t border-gray-200 p-4">
+      <div className="flex justify-between items-center max-w-4xl mx-auto">
+        <button 
+          onClick={() => setCurrentPage('home')}
+          className="flex flex-col items-center text-blue-600"
+        >
+          <Home size={24} />
+          <span className="text-sm">Home</span>
+        </button>
+        <button 
+          onClick={() => setCurrentPage('map')}
+          className="flex flex-col items-center text-gray-600"
+        >
+          <Map size={24} />
+          <span className="text-sm">Track</span>
+        </button>
+        <button 
+          onClick={() => setCurrentPage('emergency')}
+          className="flex flex-col items-center text-red-600"
+        >
+          <AlertCircle size={32} />
+          <span className="text-sm font-bold">Emergency</span>
+        </button>
+        <button 
+          onClick={() => setCurrentPage('contacts')}
+          className="flex flex-col items-center text-gray-600"
+        >
+          <Phone size={24} />
+          <span className="text-sm">Helpline</span>
+        </button>
+        <button 
+          onClick={() => setCurrentPage('settings')}
+          className="flex flex-col items-center text-gray-600"
+        >
+          <Settings size={24} />
+          <span className="text-sm">Settings</span>
+        </button>
+      </div>
+    </nav>
+  );
+
+  const Header = () => (
+    <header className="fixed top-0 w-full bg-white border-b border-gray-200 p-4">
+      <div className="flex justify-between items-center max-w-4xl mx-auto">
+        <div className="flex items-center space-x-2">
+          <Activity className="text-blue-600" size={32} />
+          <h1 className="text-2xl font-bold text-blue-600">Defense Line</h1>
+        </div>
+        {!isLoggedIn && (
+          <button 
+            onClick={() => setCurrentPage('login')}
+            className="flex items-center space-x-1 text-gray-600"
+          >
+            <LogIn size={20} />
+            <span>Login</span>
+          </button>
+        )}
+        {isLoggedIn && (
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-600">Welcome, {username}</span>
+            <button 
+              className="text-red-600"
+              onClick={() => {
+                setIsLoggedIn(false);
+                setUsername('');
+                setPassword('');
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+
+  const LoginPage = () => (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <form className="space-y-4" onSubmit={(e) => {
+        e.preventDefault();
+        setIsLoggedIn(true);
+        setCurrentPage('home');
+      }}>
+        <div>
+          <input
+            type="text"
+            placeholder="Username"
+            className="w-full p-2 border rounded"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-2 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+  );
+
+  const HomePage = () => (
+    <div className="grid grid-cols-2 gap-4 p-4">
+      <div onClick={() => setCurrentPage('analysis')} className="bg-blue-100 p-4 rounded-lg">
+        <Activity className="text-blue-600 mb-2" size={24} />
+        <h2 className="font-semibold">Data Analysis</h2>
+      </div>
+      <div onClick={() => setCurrentPage('news')} className="bg-green-100 p-4 rounded-lg">
+        <Bell className="text-green-600 mb-2" size={24} />
+        <h2 className="font-semibold">News</h2>
+      </div>
+      <div onClick={() => setCurrentPage('map')} className="bg-yellow-100 p-4 rounded-lg">
+        <Map className="text-yellow-600 mb-2" size={24} />
+        <h2 className="font-semibold">Track</h2>
+      </div>
+      <div onClick={() => setCurrentPage('contacts')} className="bg-red-100 p-4 rounded-lg">
+        <Phone className="text-red-600 mb-2" size={24} />
+        <h2 className="font-semibold">Helpline</h2>
+      </div>
+      <div onClick={() => setCurrentPage('info')} className="bg-purple-100 p-4 rounded-lg">
+        <Info className="text-purple-600 mb-2" size={24} />
+        <h2 className="font-semibold">Information</h2>
+      </div>
+      <div onClick={() => setCurrentPage('donate')} className="bg-pink-100 p-4 rounded-lg">
+        <Heart className="text-pink-600 mb-2" size={24} />
+        <h2 className="font-semibold">Donate</h2>
+      </div>
+    </div>
+  );
+
+  const DataAnalysisPage = () => (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-6">Disease Analysis Dashboard</h2>
+      <div className="space-y-8">
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={ageData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="age" />
+              <YAxis />
+              <Line type="monotone" dataKey="cases" stroke="#8884d8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={symptomsData}
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                dataKey="value"
+                label
+              >
+                {symptomsData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
+
+  const NewsPage = () => (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Latest Updates</h2>
+      <div className="space-y-4">
+        <div className="p-4 border rounded">
+          <h3 className="font-bold">Latest Health Advisory</h3>
+          <p className="text-gray-600">Updated guidelines for prevention measures</p>
+        </div>
+        <div className="p-4 border rounded">
+          <h3 className="font-bold">Community Updates</h3>
+          <p className="text-gray-600">New vaccination center locations</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DonatePage = () => (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Make a Donation</h2>
+      <form className="space-y-4" onSubmit={(e) => {
+        e.preventDefault();
+        alert(`Thank you for your donation of $${donationAmount}`);
+        setDonationAmount('');
+      }}>
+        <div>
+          <input
+            type="number"
+            placeholder="Amount"
+            className="w-full p-2 border rounded"
+            value={donationAmount}
+            onChange={(e) => setDonationAmount(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full px-4 py-2 bg-green-500 text-white rounded"
+        >
+          Submit Donation
+        </button>
+      </form>
+    </div>
+  );
+
+  const EmergencyPage = () => (
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Emergency Services</h2>
+      <div className="space-y-4">
+        <button className="w-full p-4 bg-red-500 text-white rounded">
+          Call Emergency Services
+        </button>
+        <div className="p-4 border rounded">
+          <h3 className="font-bold">Emergency Numbers</h3>
+          <p>Police: 911</p>
+          <p>Ambulance: 911</p>
+          <p>Fire Department: 911</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const SettingsPage = () => (
+    <div className="p-4 space-y-4">
+      <h2 className="text-2xl font-bold mb-4">Settings</h2>
+      <div className="space-y-2">
+        <label className="block text-gray-700 dark:text-gray-300">Theme</label>
+        <select 
+          className="w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white"
+          value={theme} 
+          onChange={(e) => setTheme(e.target.value)}
+        >
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div className="space-y-2">
+        <label className="block text-gray-700 dark:text-gray-300">Language</label>
+        <select
+          className="w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          {languages.map(lang => (
+            <option key={lang.code} value={lang.code}>
+              {lang.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="space-y-2">
+        <label className="block text-gray-700 dark:text-gray-300">Country</label>
+        <input 
+          className="w-full p-2 border rounded bg-white dark:bg-gray-700 dark:text-white"
+          value={country} 
+          onChange={(e) => setCountry(e.target.value)} 
+          placeholder="Country" 
+        />
+      </div>
+    </div>
+  );
+
+  const PageContent = () => {
+    switch(currentPage) {
+      case 'home':
+        return <HomePage />;
+      case 'login':
+        return <LoginPage />;
+      case 'analysis':
+        return <DataAnalysisPage />;
+      case 'news':
+        return <NewsPage />;
+      case 'map':
+        return <div className="p-4">Map Interface Coming Soon</div>;
+      case 'contacts':
+        return (
+          <div className="p-4">
+            <h2 className="text-2xl font-bold mb-4">Emergency Contacts</h2>
+            <div className="space-y-4">
+              <div className="p-4 border rounded bg-white dark:bg-gray-700">
+                <h3 className="font-bold">Dr. Alice Johnson</h3>
+                <p className="text-gray-600 dark:text-gray-300">General Physician</p>
+                <p>123-456-7890</p>
+              </div>
+              <div className="p-4 border rounded bg-white dark:bg-gray-700">
+                <h3 className="font-bold">Dr. Bob Smith</h3>
+                <p className="text-gray-600 dark:text-gray-300">Pediatrician</p>
+                <p>098-765-4321</p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'emergency':
+        return <EmergencyPage />;
+      case 'info':
+        return <div className="p-4">Information Content</div>;
+      case 'donate':
+        return <DonatePage />;
+      case 'settings':
+        return <SettingsPage />;
+      default:
+        return <HomePage />;
+    }
+  };
+
+  return (
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-800 dark' : 'bg-gray-50'}`}>
+      <Header />
+      <main className="pt-16 pb-20 max-w-4xl mx-auto">
+        <PageContent />
+      </main>
+      <NavigationBar />
+    </div>
+  );
+};
+
+export default App;
