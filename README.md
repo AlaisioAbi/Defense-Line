@@ -6,7 +6,7 @@ This project was made thanks to the help of AI assistance form Chat GPT and Clau
 the code is witten in TypeScript.
 
 
-Defense Line FInal Product : https://claude.site/artifacts/6bc08c03-8a7c-46d0-9e80-7d1703c9f967
+Defense Line FInal Product (demo) : https://claude.site/artifacts/6bc08c03-8a7c-46d0-9e80-7d1703c9f967
 
 
 
